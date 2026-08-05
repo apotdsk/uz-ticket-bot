@@ -1,25 +1,31 @@
 name: Check UZ tickets
 
 on:
-  # Ручний запуск з вкладки Actions на GitHub — головне для тестування зараз.
   workflow_dispatch:
-  # Орієнтовно раз на 15 хв. GitHub НЕ гарантує точний час виконання
-  # cron-задач (особливо на безкоштовному плані) — реальні затримки в
-  # 10-30+ хв не рідкість, надто в пікові години.
   schedule:
     - cron: '*/15 * * * *'
+
+concurrency:
+  group: check-uz-tickets
+  cancel-in-progress: false
 
 jobs:
   check:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # потрібно, щоб закомітити оновлений state.json назад у репо
-    steps:
-      - uses: actions/checkout@v4
+    timeout-minutes: 10
 
-      - uses: actions/setup-python@v5
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: pip
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -31,8 +37,19 @@ jobs:
 
       - name: Commit updated dedup state
         run: |
+          if [ ! -f state.json ]; then
+            echo "ERROR: check_once.py did not create state.json"
+            exit 1
+          fi
+
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add state.json
-          git diff --staged --quiet || git commit -m "chore: update dedup state [skip ci]"
-          git push
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -- state.json
+
+          if git diff --staged --quiet; then
+            echo "state.json has not changed"
+          else
+            git commit -m "chore: update dedup state [skip ci]"
+            git push
+          fi
