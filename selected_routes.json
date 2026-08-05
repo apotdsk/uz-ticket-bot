@@ -1,16 +1,1 @@
-{
-  "next_id": 5,
-  "routes": [
-    {
-      "id": 4,
-      "station_from_name": "Чернівці",
-      "station_from_id": "2218500",
-      "station_to_name": "Львів",
-      "station_to_id": "2218000",
-      "dates": [
-        "2026-08-07"
-      ],
-      "with_transfers": true
-    }
-  ]
-}
+gAAAAABqc7TWcAv0T_i77eN4CGGZZRTkQ8dtgmVKQqffB1rOtOZNuzd8aaLUaFt4zboQg4BGQrv9lxYWUiFXsxFhm6QfZNtP-WGd0SrwXJDWSqTStG-UC6Hi2_L02IrBX0QgRw6E911NMnmDYkc2P9ARjwV25_mTXG1Gzb5U2NfdnGLi4p3iP6OLZldUazNJIShR-ehYzkz-oHdy1aq35pT_tq9eos45EmmACv4tqKKVbNM6u2Isprur469mCzkMKn7lg2QxMdHGV4bCLb8Kr_2tFYzpNWdNQYsas8-eQHd1QWHhIHYqTqk1bha6L4lG3fG68YI7yrN3tcnXI0KnlnqJ2IOuLQs711RyJ_s7Xqpizq3faZ_pwrnEy0htUi_Z0nvKmgcu6Y-JXgJEfsXEz_-PUQ1OTPU9CfkwDMTLJqUrKk5cHTsFyiUluN8jL_QdpTMeu0gxviM7qksPCztpBGbH2psxdalZ7TYRcmzmvvqUqHhkRYwX8tKQD4IDdzi9KqfqdNODJmNjmPuEm_WI791WOJyRvrWsCJ7_ySOTei2WGgK2pbnuchkk_R53RRz3RQjgGS2uaKeIHy4Q8XhT9UFacjqvr_JNqXux1dIDmBuXQqI-XmPRxDM=
