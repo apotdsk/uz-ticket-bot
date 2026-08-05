@@ -145,7 +145,10 @@ class UZClient:
 
         if resp.status_code == 403:
             raise UZClientError("403 при пошуку станції.")
-        resp.raise_for_status()
+        if resp.status_code != 200:
+            raise UZClientError(
+                f"HTTP {resp.status_code} при пошуку станції '{query}': {resp.text[:500]}"
+            )
 
         try:
             items = resp.json()
@@ -199,7 +202,17 @@ class UZClient:
                 f"403 від {APP_BASE_URL} — бот-детект заблокував запит. "
                 "Спробуйте інший impersonate-профіль (client.try_other_profile())."
             )
-        resp.raise_for_status()
+        if resp.status_code != 200:
+            # Не robust HTTPError без тіла — власна помилка з текстом відповіді,
+            # щоб бачити РЕАЛЬНУ причину (напр. нестандартні коди типу 441,
+            # які curl_cffi.raise_for_status() показує без жодних деталей).
+            # Це UZClientError -> виклики вище ловлять і пропускають лише цей
+            # один маршрут/дату, не валячи весь прогін через один проблемний запит.
+            raise UZClientError(
+                f"HTTP {resp.status_code} від {APP_BASE_URL}/api/v3/trips "
+                f"(from={station_from}, to={station_to}, date={start_date}, "
+                f"with_transfers={with_transfers}): {resp.text[:500]}"
+            )
 
         try:
             data = resp.json()
