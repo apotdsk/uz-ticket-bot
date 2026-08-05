@@ -1,0 +1,11 @@
+# Секрети — НІКОЛИ в git
+.env
+
+# Локальне середовище / кеш
+venv/
+__pycache__/
+*.pyc
+
+# Тимчасові/діагностичні файли — не потрібні в репо
+debug_last_response.*
+stations_cache.json

@@ -1,0 +1,16 @@
+{
+  "next_id": 5,
+  "routes": [
+    {
+      "id": 4,
+      "station_from_name": "Чернівці",
+      "station_from_id": "2218500",
+      "station_to_name": "Львів",
+      "station_to_id": "2218000",
+      "dates": [
+        "2026-08-07"
+      ],
+      "with_transfers": true
+    }
+  ]
+}

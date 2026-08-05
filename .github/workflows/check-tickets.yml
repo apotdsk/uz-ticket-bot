@@ -1,0 +1,38 @@
+name: Check UZ tickets
+
+on:
+  # Ручний запуск з вкладки Actions на GitHub — головне для тестування зараз.
+  workflow_dispatch:
+  # Орієнтовно раз на 15 хв. GitHub НЕ гарантує точний час виконання
+  # cron-задач (особливо на безкоштовному плані) — реальні затримки в
+  # 10-30+ хв не рідкість, надто в пікові години.
+  schedule:
+    - cron: '*/15 * * * *'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # потрібно, щоб закомітити оновлений state.json назад у репо
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run check
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: python check_once.py
+
+      - name: Commit updated dedup state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state.json
+          git diff --staged --quiet || git commit -m "chore: update dedup state [skip ci]"
+          git push

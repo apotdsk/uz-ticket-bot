@@ -1,0 +1,8 @@
+curl_cffi>=0.7
+tzdata>=2024.1                   # потрібно на Windows для zoneinfo (Europe/Kyiv)
+cryptography>=42.0                # шифрування selected_routes.json/state.json для публічного репо
+python-telegram-bot[job-queue]>=21,<22
+python-dotenv>=1.0
+
+# Запасний варіант, якщо curl_cffi не подолає захист сайту:
+# playwright>=1.45      # headless-браузер, потребує ще `playwright install chromium`
